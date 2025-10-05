@@ -1,0 +1,16 @@
+
+{% extends 'base.html' %}
+{% block title %}Educación{% endblock %}
+{% block content %}
+<h3>Material educativo</h3>
+{% for c in cursos %}
+  <div class="card mb-2">
+    <div class="card-body">
+      <h5 class="card-title"><a href="{{ url_for('educacion_detalle', curso_id=c.id) }}">{{ c.titulo }}</a></h5>
+      <p class="card-text">{{ c.descripcion or '' }}</p>
+    </div>
+  </div>
+{% else %}
+  <p class="text-muted">Desde Admin crea tu primer curso (ej: Cómo escoger frutas y verduras correctamente).</p>
+{% endfor %}
+{% endblock %}

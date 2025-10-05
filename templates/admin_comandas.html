@@ -1,0 +1,30 @@
+
+{% extends 'base.html' %}
+{% block title %}Comandas (Admin/Bodega){% endblock %}
+{% block content %}
+<h3>Comandas</h3>
+{% for o in orders %}
+  <div class="card mb-2">
+    <div class="card-body">
+      <div class="d-flex justify-content-between">
+        <div><strong>#{{ o.id }}</strong> — {{ o.created_at.strftime('%Y-%m-%d %H:%M') }} — Solicitó: {{ o.requested_by }}</div>
+        <div>Estado: <span class="badge text-bg-{{ 'success' if o.status=='entregado' else 'warning' }}">{{ o.status }}</span></div>
+      </div>
+      <div>Hora deseada: {{ o.requested_for_time or '-' }}</div>
+      <ul class="mt-2">
+        {% for it in o.items %}
+          <li>{{ it.cantidad }} × {{ it.nombre }} {% if it.sku %}(SKU {{ it.sku }}){% endif %}</li>
+        {% endfor %}
+      </ul>
+      <a class="btn btn-sm btn-outline-primary" href="{{ url_for('comanda_ver', order_id=o.id) }}">Ver detalle</a>
+      {% if o.status != 'entregado' %}
+      <form class="d-inline" method="post" action="{{ url_for('admin_comanda_entregar', order_id=o.id) }}">
+        <button class="btn btn-success btn-sm">Marcar ENTREGADA</button>
+      </form>
+      {% endif %}
+    </div>
+  </div>
+{% else %}
+  <p class="text-muted">No hay comandas.</p>
+{% endfor %}
+{% endblock %}

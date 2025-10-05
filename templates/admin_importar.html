@@ -1,0 +1,13 @@
+
+{% extends 'base.html' %}
+{% block title %}Importar CSV/XLS/XLSX{% endblock %}
+{% block content %}
+<h3>Importar productos</h3>
+<form method="post" enctype="multipart/form-data" class="card p-3">
+  <div class="mb-2"><input type="file" name="archivo" class="form-control" accept=".csv,.xls,.xlsx" required></div>
+  <button class="btn btn-primary">Subir e importar</button>
+</form>
+<div class="mt-3 text-muted small">
+  Columnas requeridas: <code>sku</code>, <code>nombre</code>. Opcionales: <code>categoria</code>, <code>comentarios</code>, <code>tipo</code>, <code>pasillo</code>, <code>rack</code>, <code>cantidad</code>.
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+
+{% extends 'base.html' %}
+{% block title %}Usuarios{% endblock %}
+{% block content %}
+<h3>Usuarios</h3>
+<form method="post" class="border rounded p-3 mb-3">
+  <div class="row g-2">
+    <div class="col-md-3"><label class="form-label">Email</label><input name="email" class="form-control" required></div>
+    <div class="col-md-2"><label class="form-label">Nombre</label><input name="name" class="form-control"></div>
+    <div class="col-md-3">
+      <label class="form-label">Rol</label>
+      <select name="role" class="form-select">
+        <option value="usuario">usuario</option>
+        <option value="bodeguero">bodeguero</option>
+        <option value="admin">admin</option>
+      </select>
+    </div>
+    <div class="col-md-2"><label class="form-label">Contraseña</label><input name="password" class="form-control" value="123456"></div>
+    <div class="col-md-2"><label class="form-label d-block">&nbsp;</label><button class="btn btn-primary">Crear</button></div>
+  </div>
+</form>
+<table class="table table-sm">
+  <thead><tr><th>Email</th><th>Nombre</th><th>Rol</th></tr></thead>
+  <tbody>
+    {% for u in users %}
+    <tr><td>{{ u.email }}</td><td>{{ u.name or '' }}</td><td>{{ u.role }}</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

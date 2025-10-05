@@ -1,0 +1,40 @@
+
+{% extends 'base.html' %}
+{% block title %}Inventario{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h3>Inventario</h3>
+  {% if current_user.role in ['admin','bodeguero'] %}
+    <div class="d-flex gap-2">
+      <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('admin_importar') }}">Importar CSV/XLS/XLSX</a>
+      <a class="btn btn-sm btn-primary" href="{{ url_for('producto_nuevo') }}">+ Nuevo producto</a>
+    </div>
+  {% endif %}
+</div>
+<table class="table table-sm align-middle">
+  <thead><tr><th>SKU</th><th>Nombre</th><th>Categoría</th><th>Stock</th><th></th></tr></thead>
+  <tbody>
+  {% for p in productos %}
+    <tr>
+      <td>{{ p.sku }}</td>
+      <td><a href="{{ url_for('producto_detalle', product_id=p.id) }}">{{ p.nombre }}</a></td>
+      <td>{{ p.categoria or '' }}</td>
+      <td><span id="stock-{{ p.id }}">{{ stock_map[p.id] }}</span></td>
+      <td>{% if current_user.role in ['admin','bodeguero'] %}<a class="btn btn-outline-secondary btn-sm" href="{{ url_for('producto_editar', product_id=p.id) }}">Editar</a>{% endif %}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
+{% block scripts %}
+<script>
+setInterval(() => {
+  document.querySelectorAll('[id^="stock-"]').forEach(async el => {
+    const id = el.id.split('-')[1];
+    const res = await fetch(`/api/stock/${id}`);
+    const data = await res.json();
+    el.textContent = data.stock;
+  });
+}, 10000);
+</script>
+{% endblock %}

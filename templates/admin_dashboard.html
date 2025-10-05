@@ -1,0 +1,18 @@
+
+{% extends 'base.html' %}
+{% block title %}Admin{% endblock %}
+{% block content %}
+<h3>Panel Admin</h3>
+<div class="row g-3">
+  <div class="col-md-4"><div class="card"><div class="card-body"><div class="h1">{{ productos }}</div><div class="text-muted">Productos</div></div></div></div>
+  <div class="col-md-4"><div class="card"><div class="card-body"><div class="h1">{{ pedidos_pend }}</div><div class="text-muted">Comandas pendientes</div></div></div></div>
+</div>
+<hr>
+<div class="d-flex gap-2 flex-wrap">
+  <a class="btn btn-outline-primary" href="{{ url_for('admin_usuarios') }}">Usuarios</a>
+  <a class="btn btn-outline-primary" href="{{ url_for('admin_planograma') }}">Planograma</a>
+  <a class="btn btn-outline-primary" href="{{ url_for('admin_educacion_nuevo') }}">Nuevo curso</a>
+  <a class="btn btn-outline-primary" href="{{ url_for('admin_comandas') }}">Comandas</a>
+  <a class="btn btn-outline-primary" href="{{ url_for('admin_importar') }}">Importar CSV/XLS/XLSX</a>
+</div>
+{% endblock %}

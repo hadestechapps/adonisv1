@@ -1,0 +1,12 @@
+
+{% extends 'base.html' %}
+{% block title %}Nuevo curso{% endblock %}
+{% block content %}
+<h3>Nuevo curso</h3>
+<form method="post" enctype="multipart/form-data">
+  <div class="mb-2"><label class="form-label">Título</label><input class="form-control" name="titulo" required></div>
+  <div class="mb-2"><label class="form-label">Descripción</label><textarea class="form-control" name="descripcion" rows="4"></textarea></div>
+  <div class="mb-2"><label class="form-label">Medios (fotos / videos / pdf)</label><input type="file" class="form-control" name="media" multiple></div>
+  <button class="btn btn-primary">Crear</button>
+</form>
+{% endblock %}

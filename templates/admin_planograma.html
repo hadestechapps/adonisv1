@@ -1,0 +1,11 @@
+
+{% extends 'base.html' %}
+{% block title %}Planograma{% endblock %}
+{% block content %}
+<h3>Planograma</h3>
+<form method="post">
+  <div class="mb-2"><label class="form-label">Título</label><input class="form-control" name="titulo" value="{{ planograma.titulo }}"></div>
+  <div class="mb-2"><label class="form-label">Contenido (escribe o pega tu planograma)</label><textarea class="form-control" name="contenido" rows="10">{{ planograma.contenido }}</textarea></div>
+  <button class="btn btn-primary">Guardar</button>
+</form>
+{% endblock %}

@@ -1,0 +1,61 @@
+
+{% extends 'base.html' %}
+{% block title %}{{ 'Editar' if producto else 'Nuevo' }} producto{% endblock %}
+{% block content %}
+<h3>{{ 'Editar' if producto else 'Nuevo' }} producto</h3>
+<form method="post" enctype="multipart/form-data">
+  {% if not producto %}
+  <div class="mb-3"><label class="form-label">SKU</label><input name="sku" class="form-control" required></div>
+  {% endif %}
+  <div class="mb-3"><label class="form-label">Nombre</label><input name="nombre" class="form-control" value="{{ producto.nombre if producto }}"></div>
+  <div class="mb-3"><label class="form-label">Categoría</label><input name="categoria" class="form-control" value="{{ producto.categoria if producto }}"></div>
+  <div class="mb-3"><label class="form-label">Comentarios (tips para encontrarlo)</label><textarea name="comentarios" class="form-control" rows="2">{{ producto.comentarios if producto }}</textarea></div>
+  <div class="row g-2">
+    <div class="col-md-6"><label class="form-label">Imagen del producto (URL)</label><input name="image_url" class="form-control" placeholder="https://..." value="{{ producto.image_url if producto }}"></div>
+    <div class="col-md-6"><label class="form-label">o Subir imagen del producto (archivo)</label><input type="file" name="image_file" class="form-control" accept="image/*"></div>
+  </div>
+  <button class="btn btn-primary mt-3">Guardar</button>
+</form>
+
+{% if producto %}
+<hr>
+<h5>Ubicaciones</h5>
+<ul class="list-group mb-3">
+  {% for loc in producto.locations %}
+  <li class="list-group-item">
+    <div><strong>{{ loc.tipo }}</strong> — Pasillo: {{ loc.pasillo or '-' }}, Rack: {{ loc.rack or '-' }} — Cantidad: {{ loc.cantidad }}</div>
+    <div class="mt-2 d-flex gap-2 flex-wrap gallery">
+      {% for ph in loc.photos %}
+        <img src="{{ url_for('uploaded_file', filename=ph.filename) }}" height="90" data-bs-toggle="modal" data-bs-target="#modalImg" data-img="{{ url_for('uploaded_file', filename=ph.filename) }}">
+      {% endfor %}
+    </div>
+  </li>
+  {% else %}
+  <li class="list-group-item text-muted">Sin ubicaciones aún</li>
+  {% endfor %}
+</ul>
+
+<form method="post" action="{{ url_for('producto_agregar_ubicacion', product_id=producto.id) }}" enctype="multipart/form-data" class="border rounded p-3">
+  <h6>Agregar ubicación</h6>
+  <div class="row g-2">
+    <div class="col-md-3"><label class="form-label">Tipo</label><select class="form-select" name="tipo" required><option value="bodega">Bodega</option><option value="piso">Piso de ventas</option><option value="trastienda">Trastienda</option></select></div>
+    <div class="col-md-3"><label class="form-label">Pasillo</label><input class="form-control" name="pasillo"></div>
+    <div class="col-md-3"><label class="form-label">Rack/Sección</label><input class="form-control" name="rack"></div>
+    <div class="col-md-3"><label class="form-label">Cantidad</label><input class="form-control" name="cantidad" type="number" min="0" value="0"></div>
+  </div>
+  <div class="mt-2"><label class="form-label">Fotos del área (múltiples)</label><input type="file" name="fotos_area" class="form-control" multiple accept="image/*"></div>
+  <button class="btn btn-success mt-2">Agregar</button>
+</form>
+
+<div class="modal fade" id="modalImg" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg"><div class="modal-content"><div class="modal-body p-0"><img id="modalImgTag" src="" class="w-100"></div></div></div>
+</div>
+<script>
+document.addEventListener('click', (e) => {
+  const img = e.target.closest('img[data-img]');
+  if(!img) return;
+  document.getElementById('modalImgTag').src = img.dataset.img;
+});
+</script>
+{% endif %}
+{% endblock %}

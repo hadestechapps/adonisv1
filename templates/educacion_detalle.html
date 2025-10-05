@@ -1,0 +1,7 @@
+
+{% extends 'base.html' %}
+{% block title %}{{ curso.titulo }}{% endblock %}
+{% block content %}
+<h3>{{ curso.titulo }}</h3>
+<p class="text-muted">{{ curso.descripcion or '' }}</p>
+{% endblock %}

@@ -1,0 +1,32 @@
+
+{% extends 'base.html' %}
+{% block content %}
+<div class="row g-3">
+  <div class="col-md-8">
+    <h4>Pasillos</h4>
+    <div class="d-flex flex-wrap gap-2">
+      {% for p in pasillos %}
+      <span class="badge text-bg-info">{{ p }}</span>
+      {% else %}
+      <span class="text-muted">Sin datos aún</span>
+      {% endfor %}
+    </div>
+    {% if planograma %}
+      <hr>
+      <h5>Planograma: {{ planograma.titulo }}</h5>
+      <div class="card"><div class="card-body" style="white-space:pre-wrap">{{ planograma.contenido }}</div></div>
+    {% endif %}
+  </div>
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-body">
+        <h5>Atajos</h5>
+        <div class="d-grid gap-2">
+          <a class="btn btn-outline-primary" href="{{ url_for('buscar') }}">🔎 Buscador</a>
+          <a class="btn btn-primary" href="{{ url_for('comanda_nueva') }}">🧾 Pedir producto</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
